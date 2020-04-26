@@ -1,28 +1,40 @@
 import React, { useRef, useEffect } from "react";
 import { Chart } from 'chart.js';
 
-export const RadarChart = () => {
+export interface Measurement {
+    label: string,
+    value: number;
+}
 
+export interface RadarChartProps {
+    minValue: number;
+    maxValue: number;
+    measurements: Measurement[];
+}
+
+export const RadarChart = (props: RadarChartProps) => {
+    console.log(JSON.stringify(props))
     const chartRef = useRef<HTMLCanvasElement | null>(null);
-    
+
     useEffect(() => {
         if (chartRef.current) {
             const context = chartRef.current.getContext('2d');
             if (context) {
-    
+                
+
                 const data = {
-                    labels: ['Jumping', 'Running', 'Swimming', 'Skiing', 'Playing chess'],
+                    labels: props.measurements.map(m => m.label),
                     datasets: [
                         {
-                            data: [5, 3, 1, 1, 9]
+                            data: props.measurements.map(m => m.value) 
                         }
                     ]
                 };
                 const options = {
                     scale: {
                         ticks: {
-                            max: 10,
-                            min: 0
+                            max: props.maxValue,
+                            min: props.minValue,
                         }
                     },
                     legend: {
@@ -34,11 +46,11 @@ export const RadarChart = () => {
                     data,
                     options
                 })
-    
+
             }
         }
-    
-    }, [])
+
+    }, [props])
 
     return (
         <div style={{ width: 500, height: 500 }}>
