@@ -66,8 +66,8 @@ function App() {
 
   return (
     <div className="App">
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div className="flex flex-row">
+        <div className="flex flex-col">
           {state.questions.map(({ question, selectedAnswer }) =>
             <QuestionBlock
               question={question}
