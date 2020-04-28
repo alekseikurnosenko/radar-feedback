@@ -65,18 +65,18 @@ function App() {
   const [state, dispatch] = useReducer(reducer, intialState);
 
   return (
-    <div className="App">
-      <div className="flex flex-row">
-        <div className="flex flex-col">
-          {state.questions.map(({ question, selectedAnswer }) =>
-            <QuestionBlock
-              question={question}
-              selectedAnswer={selectedAnswer}
-              key={question.text}
-              onAnswerSelected={answer => dispatch({ type: 'answerSelected', question, answer })}
-            />
-          )}
-        </div>
+    <div className="flex flex-row items-center h-screen bg-gray-100">
+      <div className="flex flex-1 flex-col">
+        {state.questions.map(({ question, selectedAnswer }) =>
+          <QuestionBlock
+            question={question}
+            selectedAnswer={selectedAnswer}
+            key={question.text}
+            onAnswerSelected={answer => dispatch({ type: 'answerSelected', question, answer })}
+          />
+        )}
+      </div>
+      <div className="flex-shrink p-8 m-16 shadow-md rounded-chart bg-white">
         <RadarChart
           maxValue={10}
           minValue={0}

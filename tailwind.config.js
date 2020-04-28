@@ -175,6 +175,7 @@ module.exports = {
       default: '0.25rem',
       md: '0.375rem',
       lg: '0.5rem',
+      chart: '2rem',
       full: '9999px',
     },
     borderWidth: {
