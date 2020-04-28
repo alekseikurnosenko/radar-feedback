@@ -24,9 +24,9 @@ const AnswerButton = (props: AnswerButtonProps) => {
 
 export const QuestionBlock = (props: QuestionBlockProps) => {
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-            <p>{props.question.text}</p>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <div className="flex flex-col flex-1">
+            <p>{props.question.text}?</p>
+            <div className="flex flex-row mt-8">
                 {props.question.answers.map(a =>
                     <AnswerButton
                         text={a.text}

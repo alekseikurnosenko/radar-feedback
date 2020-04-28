@@ -4,15 +4,16 @@ import './App.css';
 import { RadarChart } from './components/RadarChart';
 import { QuestionBlock } from './components/QuestionBlock';
 import { Question, Answer } from './types';
+import { QuestionSection } from './components/QuestionSection';
 
-type State = {
+export type State = {
   questions: {
     question: Question;
     selectedAnswer: Answer | undefined;
   }[];
 }
 
-type Action =
+export type Action =
   | { type: 'answerSelected', question: Question, answer: Answer }
 
 function reducer(state: State, action: Action) {
@@ -67,14 +68,7 @@ function App() {
   return (
     <div className="flex flex-row items-center h-screen bg-gray-100">
       <div className="flex flex-1 flex-col">
-        {state.questions.map(({ question, selectedAnswer }) =>
-          <QuestionBlock
-            question={question}
-            selectedAnswer={selectedAnswer}
-            key={question.text}
-            onAnswerSelected={answer => dispatch({ type: 'answerSelected', question, answer })}
-          />
-        )}
+        <QuestionSection state={state} dispatch={dispatch} />
       </div>
       <div className="flex-shrink p-8 m-16 shadow-md rounded-chart bg-white">
         <RadarChart
