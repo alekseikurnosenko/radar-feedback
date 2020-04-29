@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './gen/tailwind.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
 import './ArrayExtensions';
+import './setupFirebase';
+import './gen/tailwind.css';
+import { App } from './screens/App';
+import * as serviceWorker from './serviceWorker';
+// import './stub';
 
 ReactDOM.render(
   <React.StrictMode>

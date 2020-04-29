@@ -1,22 +1,23 @@
-import { Question } from "../types";
 import React, { useState } from "react";
 import { QuestionBlock } from "./QuestionBlock";
-import { Action, State } from "../App";
+import { Question, Answer } from "./getQuestions";
+import { SelectedAnswers } from "./QuestionaireScreen";
 
 export interface QuestionSectionProps {
-    state: State;
-    dispatch: React.Dispatch<Action>;
+    questions: Question[];
+    selectedAnswers: SelectedAnswers;
+    onAnswerSelected: (question: Question, answer: Answer) => void;
 }
 
 export const QuestionSection = (props: QuestionSectionProps) => {
-    const { state, dispatch } = props;
+    const { questions, selectedAnswers, onAnswerSelected } = props;
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
-    if (state.questions.length === 0) {
+    if (questions.length === 0) {
         return <p className="m-16">No questions available</p>;
     }
 
-    const question = state.questions[currentQuestionIndex];
+    const question = questions[currentQuestionIndex];
 
     if (!question) {
         return <p className="m-16">Thank you!</p>
@@ -25,13 +26,14 @@ export const QuestionSection = (props: QuestionSectionProps) => {
     return (
         <div className="m-16 overflow-y-auto">            
                 <QuestionBlock
-                    question={question.question}
-                    selectedAnswer={question.selectedAnswer}
+                    question={question}
+                    selectedAnswer={selectedAnswers[question.id]}
                     onAnswerSelected={answer => {
-                        dispatch({ type: 'answerSelected', question: question.question, answer })
+                        onAnswerSelected(question, answer);
+
                         setTimeout(() => {
                             setCurrentQuestionIndex(currentQuestionIndex + 1)                        
-                        }, 300);
+                        }, 800);
                     }}
                 />            
         </div>
