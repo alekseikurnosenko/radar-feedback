@@ -33,14 +33,14 @@ export const OverviewScreen = () => {
                             const value = answers.reduce((sum, answer) => sum + (answer.measurement === m ? answer.value : 0), 0)
 
                             return (
-                                <div className="flex flex-col">
+                                <div className="flex flex-col" key={m}>
                                     <p className="text-2xl">{m} {value}/10</p>
                                     {
                                         answers.filter(a => a.measurement === m).map(a => {
                                             const question = questions.find(q => q.answers.some(aa => aa.id === a.id))!;
 
                                             return (
-                                                <div className="flex flex-col pl-8">
+                                                <div className="flex flex-col pl-8" key={a.id}>
                                                     <p className="italic">{question.text}</p>
                                                     <p>>{a.text}</p>
                                                 </div>
