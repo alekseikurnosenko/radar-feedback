@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { QuestionBlock } from "./QuestionBlock";
 import { Question, Answer } from "./getQuestions";
 import { SelectedAnswers } from "./QuestionaireScreen";
-import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from "constants";
 
 export interface QuestionSectionProps {
     questions: Question[];
@@ -11,7 +10,7 @@ export interface QuestionSectionProps {
     onComplete: () => void;
 }
 
-const DELAY = 800;
+const DELAY = 0;
 
 export const QuestionSection = (props: QuestionSectionProps) => {
     const { questions, selectedAnswers, onAnswerSelected, onComplete } = props;

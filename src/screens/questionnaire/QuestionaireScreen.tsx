@@ -7,6 +7,7 @@ import firebase from 'firebase';
 import FirebaseAuth from '../../components/FirebaseAuth';
 import firebaseui from 'firebaseui';
 import saveUserAnswers from './saveUserAnswers';
+import { useHistory } from 'react-router';
 
 // export type State = {
 //   questions: {
@@ -40,7 +41,7 @@ export const QuestionaireScreen = () => {
   const measurements = getMeasurements();
   const [selectedAnswers, setSelectedAnswers] = useState<SelectedAnswers>({});
   const [showSignIn, setShowSignIn] = useState(false);
-  const [showResults, setShowResults] = useState(false);
+  const history = useHistory();
 
   // const intialState: State = {
   //   questions: questions.map(q => ({ question: q, selectedAnswer: undefined }))
@@ -52,12 +53,13 @@ export const QuestionaireScreen = () => {
 
   const handleSaveUserAnswers = async (userId: string) => {
     await saveUserAnswers(userId, Object.values(selectedAnswers))
-    setShowResults(true);
+    history.replace("/overview");
   }
 
   const handleQuestionaireComplete = () => {
     // Firebase user might or might not be set
     const user = firebase.auth().currentUser;
+    console.log(user);
     if (user === null) {
       setShowSignIn(true)
     } else {
@@ -66,39 +68,39 @@ export const QuestionaireScreen = () => {
   }
 
   console.log(measurements);
+
+  const SignInPrompt = () => (
+    <div className="flex flex-1 flex-col items-center">
+      <p>Just one more step! Sign up now to save your results.</p>
+      <FirebaseAuth
+        uiConfig={{
+          signInOptions: [
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+            firebase.auth.EmailAuthProvider.PROVIDER_ID,
+          ],
+          signInFlow: 'popup',
+          callbacks: {
+            signInSuccessWithAuthResult: (authResult: firebase.auth.UserCredential) => {
+              // Save results?
+              if (!authResult.user) {
+                alert('Firebase user was not set!');
+                return false;
+              }
+              handleSaveUserAnswers(authResult.user.uid);
+              return false;
+            }
+          }
+        }}
+        firebaseAuth={firebase.auth()} />
+    </div>
+  );
+
   return (
     <div className="flex flex-row items-center h-screen bg-gray-100">
-      {showResults
-        ?
-        <div className="flex flex-1 flex-col items-center">
-          <p>Thank you, you results are saved!</p>
-        </div>
-        :
+      {
         showSignIn
           ?
-          <div className="flex flex-1 flex-col items-center">
-            <p>Sign up now to save your results!</p>
-            <FirebaseAuth
-              uiConfig={{
-                signInOptions: [
-                  firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-                  firebase.auth.EmailAuthProvider.PROVIDER_ID,
-                ],
-                signInFlow: 'popup',
-                callbacks: {
-                  signInSuccessWithAuthResult: (authResult: firebase.auth.UserCredential) => {
-                    // Save results?
-                    if (!authResult.user) {
-                      alert('Firebase user was not set!');
-                      return false;
-                    }
-                    handleSaveUserAnswers(authResult.user.uid);
-                    return false;
-                  }
-                }
-              }}
-              firebaseAuth={firebase.auth()} />
-          </div>
+          <SignInPrompt />
           :
           <div className="flex flex-1 flex-col">
             {questions &&
