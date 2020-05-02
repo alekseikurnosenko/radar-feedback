@@ -117,7 +117,7 @@ export const QuestionaireScreen = () => {
             }
           </div>
       }
-      <div className="flex-shrink p-8 m-16 shadow-md rounded-chart bg-white">
+      <div className="m-16">
         {measurements && <RadarChart
           maxValue={10}
           minValue={0}

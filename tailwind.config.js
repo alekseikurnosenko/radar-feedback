@@ -10,6 +10,7 @@ module.exports = {
       xl: '1280px',
     },
     colors: {
+      background: '#f7fafc',
       transparent: 'transparent',
       current: 'currentColor',
 

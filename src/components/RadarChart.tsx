@@ -53,7 +53,7 @@ export const RadarChart = (props: RadarChartProps) => {
     }, [props])
 
     return (
-        <div style={{ width: 500, height: 500 }}>
+        <div className="shadow-md rounded-chart bg-white p-8" style={{ width: 500, height: 500 }}>
             <canvas ref={chartRef} width={500} height={500} />
         </div>
     )
