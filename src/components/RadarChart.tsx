@@ -1,19 +1,22 @@
 import React, { useRef, useEffect } from "react";
 import { Chart } from 'chart.js';
-
-export interface Measurement {
-    label: string,
-    value: number;
-}
+import { UserAnswers } from "../screens/questionnaire/saveUserAnswers";
 
 export interface RadarChartProps {
     minValue: number;
     maxValue: number;
-    measurements: Measurement[];
+    measurements: string[];
+    userAnswers?: UserAnswers;
 }
 
 export const RadarChart = (props: RadarChartProps) => {
-    console.log(JSON.stringify(props))
+    const { userAnswers, measurements } = props;
+
+    const userMeasurements = Object.values(userAnswers || {}).flatMap(answers => answers).reduce<{ [measurement: string]: number }>((measurements, answer) => ({
+        ...measurements,
+        [answer.measurement]: answer.value + (measurements[answer.measurement] || 0)
+      }), {});
+    
     const chartRef = useRef<HTMLCanvasElement | null>(null);
 
     useEffect(() => {
@@ -23,10 +26,10 @@ export const RadarChart = (props: RadarChartProps) => {
                 
 
                 const data = {
-                    labels: props.measurements.map(m => m.label),
+                    labels: measurements,
                     datasets: [
                         {
-                            data: props.measurements.map(m => m.value) 
+                            data: measurements.map(m => userMeasurements[m] || 0) 
                         }
                     ]
                 };

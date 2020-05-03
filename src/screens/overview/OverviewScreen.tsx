@@ -30,18 +30,18 @@ export const OverviewScreen = () => {
                 <div className="flex flex-1 flex-col">
                     <div className="flex flex-1 flex-col pl-8">
                         {measurements.map(m => {
-                            const value = answers.reduce((sum, answer) => sum + (answer.measurement === m ? answer.value : 0), 0)
+                            const value = Object.values(answers).flatMap(answers => answers).reduce((sum, answer) => sum + (answer.measurement === m ? answer.value : 0), 0)
 
                             return (
                                 <div className="flex flex-col" key={m}>
                                     <p className="text-2xl">{m} {value}/10</p>
                                     {
-                                        answers.filter(a => a.measurement === m).map(a => {
-                                            const question = questions.find(q => q.answers.some(aa => aa.id === a.id))!;
+                                        Object.values(answers).flatMap(answers => answers).filter(a => a.measurement === m).map(a => {
+                                            const question = questions.find(q => q.answers.some(aa => aa.id === a.id));
 
                                             return (
                                                 <div className="flex flex-col pl-8" key={a.id}>
-                                                    <p className="italic">{question.text}</p>
+                                                    <p className="italic">{question?.text}</p>
                                                     <p>>{a.text}</p>
                                                 </div>
                                             )
@@ -57,7 +57,8 @@ export const OverviewScreen = () => {
                     {measurements && <RadarChart
                         maxValue={10}
                         minValue={0}
-                        measurements={measurements.map(m => ({ label: m, value: Object.values(answers).reduce((sum, answer) => sum + (answer.measurement === m ? answer.value : 0), 0) }))}
+                        measurements={measurements}
+                        userAnswers={answers}
                     />
                     }
                 </div>

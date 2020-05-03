@@ -1,14 +1,13 @@
 import firebase from 'firebase';
-import { useState, useEffect } from 'react';
-import { Answer } from '../questionnaire/getQuestions';
+import { useEffect, useState } from 'react';
+import { UserAnswers } from '../questionnaire/saveUserAnswers';
 
 
 export default (userId: string) => {
-    const [answers, setAnswers] = useState<Answer[]>()
+    const [answers, setAnswers] = useState<UserAnswers>()
 
     const getFromFirestore = async () => {
         const doc = await firebase.firestore().collection('users').doc(userId).get();
-        console.log(doc);    
         const result = doc.data()?.answers;    
         setAnswers(result);
     }

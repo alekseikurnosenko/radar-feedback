@@ -2,10 +2,10 @@ import React from 'react';
 import { Question, Answer } from './getQuestions';
 
 
-export interface QuestionBlockProps {
+export interface SingleChoiceQuestionProps {
     question: Question;
     selectedAnswer?: Answer;
-    onAnswerSelected: (answer: Answer) => void;
+    onQuestionAnswered: (answer: Answer) => void;
 }
 
 interface AnswerButtonProps {
@@ -22,7 +22,7 @@ const AnswerButton = (props: AnswerButtonProps) => {
     );
 }
 
-export const QuestionBlock = (props: QuestionBlockProps) => {
+export const SingleChoiceQuestion = (props: SingleChoiceQuestionProps) => {
     return (
         <div className="flex flex-col flex-1">
             <p>{props.question.text}</p>
@@ -31,7 +31,7 @@ export const QuestionBlock = (props: QuestionBlockProps) => {
                     <AnswerButton
                         text={a.text}
                         selected={props.selectedAnswer?.text === a.text}
-                        onClick={() => { props.onAnswerSelected(a) }} />
+                        onClick={() => { props.onQuestionAnswered(a) }} />
                 )}
             </div>
         </div>

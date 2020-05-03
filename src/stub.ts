@@ -14,6 +14,7 @@ const measurements: Measurement[] = [
 const questions: Question[] = [
     {
         id: uuid(),
+        isMultipleChoice: false,
         text: 'Can you jump?',
         answers: [
             {
@@ -32,6 +33,7 @@ const questions: Question[] = [
     },
     {
         id: uuid(),
+        isMultipleChoice: false,
         text: 'How fast can you run?',
         answers: [
             {
@@ -56,6 +58,7 @@ const questions: Question[] = [
     },
     {
         id: uuid(),
+        isMultipleChoice: false,
         text: 'How good are you at swimming?',
         answers: [
             {
@@ -74,6 +77,7 @@ const questions: Question[] = [
     },
     {
         id: uuid(),
+        isMultipleChoice: false,
         text: 'Can you ski?',
         answers: [
             {
@@ -98,13 +102,51 @@ const questions: Question[] = [
     },
     {
         id: uuid(),
-        text: 'Let\'s not even pretend that you can juggle.',
+        isMultipleChoice: false,
+        text: 'Juggling is difficul. Can you do it though?',
         answers: [
             {
                 id: uuid(),
                 measurement: 'juggling',
-                text: 'Okay =(',
+                text: 'Yes =P',
+                value: 8
+            },
+            {
+                id: uuid(),
+                measurement: 'juggling',
+                text: 'No =(',
                 value: 0
+            },
+        ],
+    },
+    {
+        id: uuid(),
+        isMultipleChoice: true,
+        text: 'How hardcore are you? Select all which apply.',
+        answers: [
+            {
+                id: uuid(),
+                measurement: 'swimming',
+                text: 'I can wrestle with sharks',
+                value: 1
+            },
+            {
+                id: uuid(),
+                measurement: 'juggling',
+                text: 'I can juggle with chainsaws which are set on fire',
+                value: 1
+            },
+            {
+                id: uuid(),
+                measurement: 'swimming',
+                text: 'I can swim across English Channel',
+                value: 1
+            },
+            {
+                id: uuid(),
+                measurement: 'swimming',
+                text: 'I can swim across Atlantic Ocean',
+                value: 1
             },
         ],
     },

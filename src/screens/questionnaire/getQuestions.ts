@@ -10,6 +10,7 @@ export interface Answer {
 
 export interface Question {
     id: string;
+    isMultipleChoice: boolean;
     text: string;
     answers: Answer[];
 }
@@ -18,8 +19,7 @@ export default () => {
     const [questions, setQuestions] = useState<Question[]>()
 
     const getFromFirestore = async () => {
-        const doc = await firebase.firestore().collection('questions').doc('sport').get();
-        console.log(doc);    
+        const doc = await firebase.firestore().collection('questions').doc('sport').get();   
         const result = doc.data()?.list;    
         setQuestions(result);
     }

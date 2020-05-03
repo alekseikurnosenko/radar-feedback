@@ -16,6 +16,7 @@
 // @flow
 
 import React from 'react';
+import firebaseui from 'firebaseui';
 
 // Global ID for the element.
 const ELEMENT_ID = 'firebaseui_container';

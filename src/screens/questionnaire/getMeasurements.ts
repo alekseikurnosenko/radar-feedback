@@ -8,7 +8,6 @@ export default () => {
 
     const getFromFirestore = async () => {
         const doc = await firebase.firestore().collection('measurements').doc('sport').get();
-        console.log(doc);   
         const result = doc.data()?.list;     
         setMeasurements(result);
     }

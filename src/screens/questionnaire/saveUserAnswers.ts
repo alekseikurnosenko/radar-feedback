@@ -1,10 +1,11 @@
 import firebase from 'firebase';
 import { Answer } from './getQuestions';
 
-export type Measurement = string;
+export interface UserAnswers {
+    [questionId: string]: Answer[];
+};
 
-export default async (userId: string, answers: Answer[]) => {
+export default async (userId: string, answers: UserAnswers) => {
     const doc = await firebase.firestore().collection('users').doc(userId);
-    console.log(doc);
     doc.set({ answers: answers })
 };

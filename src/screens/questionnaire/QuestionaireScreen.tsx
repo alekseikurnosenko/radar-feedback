@@ -1,73 +1,40 @@
-import React, { useReducer, useState } from 'react';
-import { QuestionSection } from './QuestionSection';
+import React, { useReducer, useState, useEffect } from 'react';
+import { QuestionList } from './QuestionSection';
 import { RadarChart } from '../../components/RadarChart';
 import getQuestions, { Answer, Question } from './getQuestions';
 import getMeasurements from './getMeasurements';
 import firebase from 'firebase';
 import FirebaseAuth from '../../components/FirebaseAuth';
-import firebaseui from 'firebaseui';
-import saveUserAnswers from './saveUserAnswers';
+import saveUserAnswers, { UserAnswers } from './saveUserAnswers';
 import { useHistory } from 'react-router';
-
-// export type State = {
-//   questions: {
-//     question: Question;
-//     selectedAnswer: Answer | undefined;
-//   }[];
-// }
-
-// export type Action =
-//   | { type: 'answerSelected', question: Question, answer: Answer }
-
-// function reducer(state: State, action: Action) {
-//   switch (action.type) {
-//     case 'answerSelected':
-//       return {
-//         questions: state.questions.map(({ question, selectedAnswer }) =>
-//           question.text === action.question.text ?
-//             { question, selectedAnswer: action.answer } :
-//             { question, selectedAnswer }
-//         )
-//       }
-//   }
-// }
-
-export interface SelectedAnswers {
-  [questionId: string]: Answer
-}
 
 export const QuestionaireScreen = () => {
   const questions = getQuestions();
   const measurements = getMeasurements();
-  const [selectedAnswers, setSelectedAnswers] = useState<SelectedAnswers>({});
+  const [selectedAnswers, setSelectedAnswers] = useState<UserAnswers>({});
   const [showSignIn, setShowSignIn] = useState(false);
+  const [isComplete, setComplete] = useState(false);
   const history = useHistory();
 
-  // const intialState: State = {
-  //   questions: questions.map(q => ({ question: q, selectedAnswer: undefined }))
-  // };
+  console.log(selectedAnswers);
 
-  // const [state, dispatch] = useReducer(reducer, intialState);
-
-  // firebase.auth().signOut();
+  useEffect(() => {
+    if (isComplete) {
+      // Firebase user might or might not be set
+      const user = firebase.auth().currentUser;
+      if (user === null) {
+        setShowSignIn(true)
+      } else {
+        handleSaveUserAnswers(user.uid);
+      }
+    }
+  }, [isComplete])
 
   const handleSaveUserAnswers = async (userId: string) => {
-    await saveUserAnswers(userId, Object.values(selectedAnswers))
+    console.log(selectedAnswers);
+    await saveUserAnswers(userId, selectedAnswers)
     history.replace("/overview");
   }
-
-  const handleQuestionaireComplete = () => {
-    // Firebase user might or might not be set
-    const user = firebase.auth().currentUser;
-    console.log(user);
-    if (user === null) {
-      setShowSignIn(true)
-    } else {
-      handleSaveUserAnswers(user.uid);
-    }
-  }
-
-  console.log(measurements);
 
   const SignInPrompt = () => (
     <div className="flex flex-1 flex-col items-center">
@@ -95,6 +62,8 @@ export const QuestionaireScreen = () => {
     </div>
   );
 
+
+
   return (
     <div className="flex flex-row items-center h-screen bg-gray-100">
       {
@@ -104,16 +73,16 @@ export const QuestionaireScreen = () => {
           :
           <div className="flex flex-1 flex-col">
             {questions &&
-              <QuestionSection
+              <QuestionList
                 questions={questions}
                 selectedAnswers={selectedAnswers}
-                onAnswerSelected={(question, answer) => {
-                  setSelectedAnswers({
-                    ...selectedAnswers,
-                    [question.id]: answer,
-                  })
+                onQuestionAnswered={(question, answers) => {
+                  setSelectedAnswers(prevAnswers => ({
+                    ...prevAnswers,
+                    [question.id]: answers,
+                  }));
                 }}
-                onComplete={handleQuestionaireComplete} />
+                onComplete={() => setComplete(true)} />
             }
           </div>
       }
@@ -121,7 +90,8 @@ export const QuestionaireScreen = () => {
         {measurements && <RadarChart
           maxValue={10}
           minValue={0}
-          measurements={measurements.map(m => ({ label: m, value: Object.values(selectedAnswers).reduce((sum, answer) => sum + (answer.measurement === m ? answer.value : 0), 0) }))}
+          measurements={measurements}
+          userAnswers={selectedAnswers}
         />
         }
       </div>
