@@ -4,17 +4,23 @@ import { getUserId } from "./getUserId";
 import getMeasurements from "../questionnaire/getMeasurements";
 import getQuestions from "../questionnaire/getQuestions";
 import { RadarChart } from "../../components/RadarChart";
-import { Link } from "react-router-dom";
+import { Link, useHistory, Redirect } from "react-router-dom";
 import firebase from "firebase";
 
 export const OverviewScreen = () => {
     const userId = getUserId()!;
     const measurements = getMeasurements();
-    const answers = getUserAnswers(userId);
+    const [answers, isAnswersLoading] = getUserAnswers(userId);
     const questions = getQuestions();
 
-    if (!measurements || !answers || !questions) {
+    if (!measurements || isAnswersLoading || !questions) {
         return <p>Loading</p>;
+    }
+
+    if (!answers) {
+        // User have no answers  
+        // Return to main page?      
+        return <Redirect to="/questionaire" />
     }
 
     return (

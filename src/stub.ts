@@ -1,15 +1,14 @@
+import firebase from 'firebase';
 import { v4 as uuid } from 'uuid';
 import { Question } from "./screens/questionnaire/getQuestions";
-import { Measurement } from './screens/questionnaire/getMeasurements';
-import firebase from 'firebase';
 
-const measurements: Measurement[] = [
-    'jumping',
-    'running',
-    'swimming',
-    'skiing',
-    'juggling',
-]
+const measurements = {
+    jumping: '🦘 Jumping',
+    running: '🏃 Running',
+    swimming: '🏊 Swimming',
+    skiing: '⛷️ Skiing',
+    juggling: '🤹 Juggling',
+}
 
 const questions: Question[] = [
     {
@@ -19,13 +18,13 @@ const questions: Question[] = [
         answers: [
             {
                 id: uuid(),
-                measurement: 'jumping',
+                measurement: measurements.jumping,
                 text: 'Like a rabbit!',
                 value: 9
             },
             {
                 id: uuid(),
-                measurement: 'jumping',
+                measurement: measurements.jumping,
                 text: 'Barely.',
                 value: 2
             }
@@ -38,19 +37,19 @@ const questions: Question[] = [
         answers: [
             {
                 id: uuid(),
-                measurement: 'running',
+                measurement: measurements.running,
                 text: 'I am a gepard!',
                 value: 9
             },
             {
                 id: uuid(),
-                measurement: 'running',
+                measurement: measurements.running,
                 text: 'Dunno, average?',
                 value: 5,
             },
             {
                 id: uuid(),
-                measurement: 'running',
+                measurement: measurements.running,
                 text: 'Like a snail.',
                 value: 1
             }
@@ -63,13 +62,13 @@ const questions: Question[] = [
         answers: [
             {
                 id: uuid(),
-                measurement: 'swimming',
+                measurement: measurements.swimming,
                 text: 'I am a Pro.',
                 value: 10
             },
             {
                 id: uuid(),
-                measurement: 'swimming',
+                measurement: measurements.swimming,
                 text: 'I cannot swim at all!',
                 value: 1
             }
@@ -82,19 +81,19 @@ const questions: Question[] = [
         answers: [
             {
                 id: uuid(),
-                measurement: 'skiing',
+                measurement: measurements.skiing,
                 text: 'Won gold on the last Olympic games.',
                 value: 10
             },
             {
                 id: uuid(),
-                measurement: 'skiing',
+                measurement: measurements.skiing,
                 text: 'Can reach the bottom without breaking my neck.',
                 value: 7
             },
             {
                 id: uuid(),
-                measurement: 'skiing',
+                measurement: measurements.skiing,
                 text: 'Snowboarding for life!',
                 value: 1
             },
@@ -107,13 +106,13 @@ const questions: Question[] = [
         answers: [
             {
                 id: uuid(),
-                measurement: 'juggling',
+                measurement: measurements.juggling,
                 text: 'Yes =P',
                 value: 8
             },
             {
                 id: uuid(),
-                measurement: 'juggling',
+                measurement: measurements.juggling,
                 text: 'No =(',
                 value: 0
             },
@@ -126,25 +125,25 @@ const questions: Question[] = [
         answers: [
             {
                 id: uuid(),
-                measurement: 'swimming',
+                measurement: measurements.swimming,
                 text: 'I can wrestle with sharks',
                 value: 1
             },
             {
                 id: uuid(),
-                measurement: 'juggling',
+                measurement: measurements.juggling,
                 text: 'I can juggle with chainsaws which are set on fire',
                 value: 1
             },
             {
                 id: uuid(),
-                measurement: 'swimming',
+                measurement: measurements.swimming,
                 text: 'I can swim across English Channel',
                 value: 1
             },
             {
                 id: uuid(),
-                measurement: 'swimming',
+                measurement: measurements.swimming,
                 text: 'I can swim across Atlantic Ocean',
                 value: 1
             },
@@ -159,7 +158,7 @@ const stub = async () => {
 
     const measurementsCollection = firebase.firestore().collection('measurements');
     await measurementsCollection.doc('sport').delete();
-    await measurementsCollection.doc('sport').set({list: measurements});
+    await measurementsCollection.doc('sport').set({list: Object.values(measurements)});
 };
 
 stub();
