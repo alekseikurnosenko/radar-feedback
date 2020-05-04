@@ -56,7 +56,6 @@ export const MultipleChoiceQuestion = (props: MultipleChoiceQuestionProps) => {
                 )}
             </div>
             <button
-                disabled={currentSelectedAnswers.length === 0}
                 onClick={() => handleOkClick()}>
                 OK
             </button>
