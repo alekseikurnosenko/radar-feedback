@@ -24,7 +24,7 @@ export const OverviewScreen = () => {
     }
 
     const currentAnswers = answers[0].answers;
-    // const previousAnswers = answers[1];
+    const previousAnswers = answers[1].answers;
 
     return (
         <div className="flex flex-col bg-background h-screen">
@@ -68,6 +68,7 @@ export const OverviewScreen = () => {
                         minValue={0}
                         measurements={measurements}
                         userAnswers={currentAnswers}
+                        previousUserAnswers={previousAnswers}
                     />
                     }
                 </div>

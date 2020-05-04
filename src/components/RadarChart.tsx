@@ -7,30 +7,48 @@ export interface RadarChartProps {
     maxValue: number;
     measurements: string[];
     userAnswers?: UserAnswers;
+    previousUserAnswers?: UserAnswers;
+}
+
+const convertAnswers = (answers: UserAnswers | undefined, measurements: string[]) => {
+    const userMeasurements = Object.values(answers || {})
+        .flatMap(answers => answers)
+        .reduce<{ [measurement: string]: number }>((measurements, answer) => ({
+            ...measurements,
+            [answer.measurement]: answer.value + (measurements[answer.measurement] || 0)
+        }), {});
+
+        return measurements.map(m => userMeasurements[m] || 0);
 }
 
 export const RadarChart = (props: RadarChartProps) => {
-    const { userAnswers, measurements } = props;
+    const { userAnswers, previousUserAnswers, measurements } = props;
 
-    const userMeasurements = Object.values(userAnswers || {}).flatMap(answers => answers).reduce<{ [measurement: string]: number }>((measurements, answer) => ({
-        ...measurements,
-        [answer.measurement]: answer.value + (measurements[answer.measurement] || 0)
-      }), {});
-    
+    const userMeasurements = convertAnswers(userAnswers, measurements);
+    const hasPrevious = previousUserAnswers !== undefined;
+    const previousUserMeasurements = convertAnswers(previousUserAnswers, measurements);
+
     const chartRef = useRef<HTMLCanvasElement | null>(null);
 
     useEffect(() => {
         if (chartRef.current) {
             const context = chartRef.current.getContext('2d');
             if (context) {
-                
+
 
                 const data = {
                     labels: measurements,
                     datasets: [
                         {
-                            data: measurements.map(m => userMeasurements[m] || 0) 
-                        }
+                            label: 'Current',
+                            data: userMeasurements,
+                            backgroundColor: 'rgba(0, 255, 0, 0.6)',
+                        },
+                        hasPrevious ? {
+                            label: 'Previous',
+                            data: previousUserMeasurements,
+                            backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                        } : {}
                     ]
                 };
                 const options = {
@@ -41,7 +59,7 @@ export const RadarChart = (props: RadarChartProps) => {
                         }
                     },
                     legend: {
-                        display: false
+                        display: hasPrevious
                     }
                 };
                 const chart = new Chart(context, {
