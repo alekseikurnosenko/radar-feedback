@@ -23,6 +23,9 @@ export const OverviewScreen = () => {
         return <Redirect to="/questionaire" />
     }
 
+    const currentAnswers = answers[0].answers;
+    // const previousAnswers = answers[1];
+
     return (
         <div className="flex flex-col bg-background h-screen">
             <div className="flex flex-row items-center">
@@ -36,13 +39,13 @@ export const OverviewScreen = () => {
                 <div className="flex flex-1 flex-col">
                     <div className="flex flex-1 flex-col pl-8">
                         {measurements.map(m => {
-                            const value = Object.values(answers).flatMap(answers => answers).reduce((sum, answer) => sum + (answer.measurement === m ? answer.value : 0), 0)
+                            const value = Object.values(currentAnswers).flatMap(answers => answers).reduce((sum, answer) => sum + (answer.measurement === m ? answer.value : 0), 0)
 
                             return (
                                 <div className="flex flex-col" key={m}>
                                     <p className="text-2xl">{m} {value}/10</p>
                                     {
-                                        Object.values(answers).flatMap(answers => answers).filter(a => a.measurement === m).map(a => {
+                                        Object.values(currentAnswers).flatMap(answers => answers).filter(a => a.measurement === m).map(a => {
                                             const question = questions.find(q => q.answers.some(aa => aa.id === a.id));
 
                                             return (
@@ -64,7 +67,7 @@ export const OverviewScreen = () => {
                         maxValue={10}
                         minValue={0}
                         measurements={measurements}
-                        userAnswers={answers}
+                        userAnswers={currentAnswers}
                     />
                     }
                 </div>

@@ -29,6 +29,7 @@ export const SingleChoiceQuestion = (props: SingleChoiceQuestionProps) => {
             <div className="flex flex-col mt-8">
                 {props.question.answers.map(a =>
                     <AnswerButton
+                        key={a.id}
                         text={a.text}
                         selected={props.selectedAnswer?.text === a.text}
                         onClick={() => { props.onQuestionAnswered(a) }} />
