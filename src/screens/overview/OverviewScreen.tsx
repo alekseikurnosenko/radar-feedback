@@ -36,7 +36,7 @@ export const OverviewScreen = () => {
                 </Link>
                 <button className="mr-8 ml-auto" onClick={() => firebase.auth().signOut()}>Logout</button>
             </div>
-            <div className="flex flex-row">
+            <div className="flex lg:flex-row flex-col">
                 <div className="flex flex-1 flex-col">
                     <div className="flex flex-1 flex-col pl-8">
                         {measurements.map(m => {
