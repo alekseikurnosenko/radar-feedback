@@ -20,7 +20,7 @@ const questions: Question[] = [
                 id: uuid(),
                 measurement: measurements.jumping,
                 text: 'Like a rabbit!',
-                value: 9
+                value: 5
             },
             {
                 id: uuid(),
@@ -39,13 +39,13 @@ const questions: Question[] = [
                 id: uuid(),
                 measurement: measurements.running,
                 text: 'I am a gepard!',
-                value: 9
+                value: 5
             },
             {
                 id: uuid(),
                 measurement: measurements.running,
                 text: 'Dunno, average?',
-                value: 5,
+                value: 3,
             },
             {
                 id: uuid(),
@@ -64,7 +64,13 @@ const questions: Question[] = [
                 id: uuid(),
                 measurement: measurements.swimming,
                 text: 'I am a Pro.',
-                value: 10
+                value: 5
+            },
+            {
+                id: uuid(),
+                measurement: measurements.swimming,
+                text: 'With floating tube only.',
+                value: 2
             },
             {
                 id: uuid(),
@@ -83,13 +89,13 @@ const questions: Question[] = [
                 id: uuid(),
                 measurement: measurements.skiing,
                 text: 'Won gold on the last Olympic games.',
-                value: 10
+                value: 5
             },
             {
                 id: uuid(),
                 measurement: measurements.skiing,
                 text: 'Can reach the bottom without breaking my neck.',
-                value: 7
+                value: 3
             },
             {
                 id: uuid(),
@@ -107,8 +113,14 @@ const questions: Question[] = [
             {
                 id: uuid(),
                 measurement: measurements.juggling,
-                text: 'Yes =P',
-                value: 8
+                text: 'Yes',
+                value: 5
+            },
+            {
+                id: uuid(),
+                measurement: measurements.juggling,
+                text: 'Kinda',
+                value: 3
             },
             {
                 id: uuid(),

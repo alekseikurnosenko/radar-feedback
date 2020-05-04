@@ -56,7 +56,8 @@ export const RadarChart = (props: RadarChartProps) => {
                         ticks: {
                             max: props.maxValue,
                             min: props.minValue,
-                        }
+                            stepSize: 1,
+                        },                        
                     },
                     legend: {
                         display: hasPrevious

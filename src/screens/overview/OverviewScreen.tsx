@@ -14,11 +14,11 @@ export const OverviewScreen = () => {
     const [answers, isAnswersLoading] = getUserAnswers(userId);
     const questions = getQuestions();
 
-    if (!measurements || isAnswersLoading || !questions) {
+    if (!measurements || !answers || !questions) {
         return <p>Loading</p>;
     }
 
-    if (!answers) {
+    if (answers.length === 0) {
         // User have no answers  
         // Return to main page?      
         return <Redirect to="/questionaire" />
@@ -47,7 +47,7 @@ export const OverviewScreen = () => {
                             return (
                                 <div className="flex flex-col" key={m}>
                                     <div className="flex flex-row items-center">
-                                        <p className="text-2xl mr-2">{m} {currentValue}/10</p>
+                                        <p className="text-2xl mr-2">{m} {currentValue}/5</p>
                                         {diff !== undefined && (
                                             diff > 0 ? <p className="text-xl text-green-500">▲ {diff}</p> :
                                                 diff < 0 ? <p className="text-xl text-red-800">▼ {Math.abs(diff)}</p> : null
@@ -74,7 +74,7 @@ export const OverviewScreen = () => {
                 </div>
                 <div className="m-16">
                     {measurements && <RadarChart
-                        maxValue={10}
+                        maxValue={5}
                         minValue={0}
                         measurements={measurements}
                         userAnswers={currentAnswers}

@@ -89,7 +89,7 @@ export const QuestionaireScreen = () => {
       }
       <div className="m-16">
         {measurements && <RadarChart
-          maxValue={10}
+          maxValue={5}
           minValue={0}
           measurements={measurements}
           userAnswers={selectedAnswers}
