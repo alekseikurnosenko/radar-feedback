@@ -46,6 +46,7 @@ export const QuestionaireScreen = () => {
             firebase.auth.EmailAuthProvider.PROVIDER_ID,
           ],
           signInFlow: 'popup',
+          credentialHelper: 'none',
           callbacks: {
             signInSuccessWithAuthResult: (authResult: firebase.auth.UserCredential) => {
               // Save results?
