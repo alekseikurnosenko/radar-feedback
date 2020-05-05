@@ -6,6 +6,12 @@ export interface Answer {
     text: string;
     measurement: string;
     value: number;
+    suggestions?: Suggestion[];
+}
+
+export interface Suggestion {
+    text: string;
+    link?: string;
 }
 
 export interface Question {

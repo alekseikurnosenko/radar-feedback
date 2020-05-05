@@ -38,7 +38,7 @@ export const OverviewScreen = () => {
             </div>
             <div className="flex lg:flex-row flex-col">
                 <div className="flex flex-1 flex-col">
-                    <div className="flex flex-1 flex-col pl-8">
+                    <div className="flex flex-1 flex-col px-8">
                         {measurements.map(m => {
                             const currentValue = Object.values(currentAnswers).flatMap(answers => answers).reduce((sum, answer) => sum + (answer.measurement === m ? answer.value : 0), 0)
                             const previousValue = Object.values(previousAnswers || {}).flatMap(answers => answers).reduce((sum, answer) => sum + (answer.measurement === m ? answer.value : 0), 0)
@@ -55,16 +55,27 @@ export const OverviewScreen = () => {
                                         }
                                     </div>
                                     {
-                                        Object.values(currentAnswers).flatMap(answers => answers).filter(a => a.measurement === m).map(a => {
-                                            const question = questions.find(q => q.answers.some(aa => aa.id === a.id));
+                                        Object.values(currentAnswers)
+                                            .flatMap(answers => answers)
+                                            .filter(a => a.measurement === m)
+                                            .map(a => {
+                                                const question = questions.find(q => q.answers.some(aa => aa.id === a.id));
 
-                                            return (
-                                                <div className="flex flex-col pl-8" key={a.id}>
-                                                    <p className="italic">{question?.text}</p>
-                                                    <p>>{a.text}</p>
-                                                </div>
-                                            )
-                                        })
+                                                const origAnswer = question?.answers.find(aa => aa.id === a.id);
+
+                                                return (
+                                                    <div className="flex flex-col pl-8 mb-4" key={a.id}>
+                                                        <p className="italic mb-2 text">{question?.text}</p>
+                                                        <p className="p-2 mb-2 border border-sold border-black rounded-lg">✔️ {a.text}</p>
+                                                        {origAnswer?.suggestions && origAnswer?.suggestions.map(s => (
+                                                            <div className="pl-2 flex flex-row items-center">                                                                
+                                                                <p>⚠ {s.text}</p>
+                                                                {s.link && <a className="ml-2 underline text-blue-500" target="_blank" href={s.link}>Link</a>}
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                )
+                                            })
                                     }
                                 </div>
                             )

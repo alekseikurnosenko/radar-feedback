@@ -26,7 +26,13 @@ const questions: Question[] = [
                 id: uuid(),
                 measurement: measurements.jumping,
                 text: 'Barely.',
-                value: 2
+                value: 2,
+                suggestions: [
+                    {
+                        text: 'Follow this program to improve!',
+                        link: 'https://lmgtfy.com/?q=training+program+scam'
+                    }
+                ]
             }
         ],
     },
@@ -46,12 +52,26 @@ const questions: Question[] = [
                 measurement: measurements.running,
                 text: 'Dunno, average?',
                 value: 3,
+                suggestions: [
+                    {
+                        text: 'So like, speed up?'
+                    }
+                ]
             },
             {
                 id: uuid(),
                 measurement: measurements.running,
                 text: 'Like a snail.',
-                value: 1
+                value: 1,
+                suggestions: [
+                    {
+                        text: 'Try moving your legs faster.'
+                    },
+                    {
+                        text: 'Buy these amazing shoes to improve!',
+                        link: 'https://lmgtfy.com/?q=buy+overpriced+branded+shoes'
+                    }
+                ]
             }
         ],
     },
@@ -70,13 +90,23 @@ const questions: Question[] = [
                 id: uuid(),
                 measurement: measurements.swimming,
                 text: 'With floating tube only.',
-                value: 2
+                value: 2,
+                suggestions: [
+                    {
+                        text: 'Try ditching the tube. You will either learn to swim or ...'
+                    }
+                ]
             },
             {
                 id: uuid(),
                 measurement: measurements.swimming,
                 text: 'I cannot swim at all!',
-                value: 1
+                value: 1,
+                suggestions: [
+                    {
+                        text: 'Try moving your arms and legs. Don`t forget to breathe'
+                    }
+                ]
             }
         ],
     },
@@ -120,13 +150,24 @@ const questions: Question[] = [
                 id: uuid(),
                 measurement: measurements.juggling,
                 text: 'Kinda',
-                value: 3
+                value: 3,
+                suggestions: [
+                    {
+                        text: 'Try increasing number of items you can juggle with',
+                        link: 'https://lmgtfy.com/?q=extreme+juggling'
+                    }
+                ]
             },
             {
                 id: uuid(),
                 measurement: measurements.juggling,
                 text: 'No =(',
-                value: 0
+                value: 0,
+                suggestions: [
+                    {
+                        text: 'Throw your phone into the air and try to catch it.'
+                    }
+                ]
             },
         ],
     },
@@ -166,11 +207,11 @@ const questions: Question[] = [
 const stub = async () => {
     const questionCollection = firebase.firestore().collection('questions');
     await questionCollection.doc('sport').delete();
-    await questionCollection.doc('sport').set({list: questions});
+    await questionCollection.doc('sport').set({ list: questions });
 
     const measurementsCollection = firebase.firestore().collection('measurements');
     await measurementsCollection.doc('sport').delete();
-    await measurementsCollection.doc('sport').set({list: Object.values(measurements)});
+    await measurementsCollection.doc('sport').set({ list: Object.values(measurements) });
 };
 
 stub();
