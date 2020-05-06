@@ -16,7 +16,7 @@ interface AnswerButtonProps {
 
 const AnswerButton = (props: AnswerButtonProps) => {
     return (
-        <button className="p-4 mb-4 border border-sold border-black rounded-lg" style={{ backgroundColor: props.selected ? 'green' : undefined }} onClick={props.onClick}>
+        <button className="p-4 mb-4 border border-solid border-black rounded-lg" style={{ backgroundColor: props.selected ? 'green' : undefined }} onClick={props.onClick}>
             {props.text}
         </button>
     );

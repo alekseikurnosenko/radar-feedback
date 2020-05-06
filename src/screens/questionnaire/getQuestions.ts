@@ -10,6 +10,7 @@ export interface Answer {
 }
 
 export interface Suggestion {
+    id: string;
     text: string;
     link?: string;
 }

@@ -29,6 +29,7 @@ const questions: Question[] = [
                 value: 2,
                 suggestions: [
                     {
+                        id: uuid(),
                         text: 'Follow this program to improve!',
                         link: 'https://lmgtfy.com/?q=training+program+scam'
                     }
@@ -54,6 +55,7 @@ const questions: Question[] = [
                 value: 3,
                 suggestions: [
                     {
+                        id: uuid(),
                         text: 'So like, speed up?'
                     }
                 ]
@@ -65,9 +67,11 @@ const questions: Question[] = [
                 value: 1,
                 suggestions: [
                     {
+                        id: uuid(),
                         text: 'Try moving your legs faster.'
                     },
                     {
+                        id: uuid(),
                         text: 'Buy these amazing shoes to improve!',
                         link: 'https://lmgtfy.com/?q=buy+overpriced+branded+shoes'
                     }
@@ -93,6 +97,7 @@ const questions: Question[] = [
                 value: 2,
                 suggestions: [
                     {
+                        id: uuid(),
                         text: 'Try ditching the tube. You will either learn to swim or ...'
                     }
                 ]
@@ -104,6 +109,7 @@ const questions: Question[] = [
                 value: 1,
                 suggestions: [
                     {
+                        id: uuid(),
                         text: 'Try moving your arms and legs. Don`t forget to breathe'
                     }
                 ]
@@ -153,6 +159,7 @@ const questions: Question[] = [
                 value: 3,
                 suggestions: [
                     {
+                        id: uuid(),
                         text: 'Try increasing number of items you can juggle with',
                         link: 'https://lmgtfy.com/?q=extreme+juggling'
                     }
@@ -165,6 +172,7 @@ const questions: Question[] = [
                 value: 0,
                 suggestions: [
                     {
+                        id: uuid(),
                         text: 'Throw your phone into the air and try to catch it.'
                     }
                 ]

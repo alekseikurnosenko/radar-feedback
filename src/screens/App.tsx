@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route, useHistory, Redirect } from 'react-router
 import { OverviewScreen } from "./overview/OverviewScreen";
 import firebase from 'firebase';
 import { LandingScreen } from "./landing/LangingScreen";
+import { QuestionsScreen } from "./management/QuestionsScreen";
 
 
 export const App = () => {
@@ -37,6 +38,9 @@ export const App = () => {
                 </ProtectedRoute>
                 <Route path="/questionaire">
                     <QuestionaireScreen />
+                </Route>
+                <Route path="/management">
+                    <QuestionsScreen />
                 </Route>
             </Switch>
         </BrowserRouter>
