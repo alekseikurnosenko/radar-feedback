@@ -6,15 +6,22 @@ import { Button } from "../../components/Button";
 import saveQuestions from "./saveQuestions";
 import { v4 as uuid } from 'uuid';
 
-const SuggestionBlock = (props: { suggestion: Suggestion }) => {
-    const { suggestion } = props;
+const SuggestionBlock = (props: { answer: Answer, suggestion: Suggestion }) => {
+    const { answer, suggestion } = props;
+    const dispatch = useContext(DispatchContext);
 
     return (
         <div className="flex flex-col p-2 mt-2 bg-blue-100 border border-black">
             <p>Text</p>
-            <Input value={suggestion.text}></Input>
-            <p>Link (optional)</p>
-            <Input value={suggestion.link}></Input>
+            <Input value={suggestion.text} onChange={() => {}}/>
+            <p className="mt-2">Link (optional)</p>
+            <Input value={suggestion.link} onChange={() => {}}/>
+            <Button
+                className="ml-auto mt-2"
+                onClick={() => dispatch({ type: 'REMOVE_SUGGESTION', answerId: answer.id, suggestionId: suggestion.id })}
+            >
+                Remove
+            </Button>
         </div>
     )
 };
@@ -50,13 +57,13 @@ const AnswerBlock = (props: { answer: Answer, measurements: Measurement[] }) => 
                 <p className="mt-2">Suggestions</p>
                 <Button
                     className="ml-auto"
-                    onClick={() => dispatch({ type: 'SUGGESTION_ADDED', answerId: answer.id })}
+                    onClick={() => dispatch({ type: 'ADD_SUGGESTION', answerId: answer.id })}
                 >
                     +
                 </Button>
             </div>
             {answer.suggestions?.map(s =>
-                <SuggestionBlock key={s.id} suggestion={s} />
+                <SuggestionBlock key={s.id} suggestion={s} answer={answer} />
             )}
         </div>
     );
@@ -69,7 +76,7 @@ const QuestionBlock = (props: { question: Question, measurements: Measurement[] 
     return (
         <div className="flex flex-col p-4 mb-4 bg-white border border-black">
             <p>Text:</p>
-            <Input value={question.text} onChange={e => dispatch({ type: 'QUESTION_TEXT_CHANGED', newText: e.target.value, questionId: question.id })}></Input>
+            <Input value={question.text} onChange={e => dispatch({ type: 'QUESTION_TEXT_CHANGED', newText: e.target.value, questionId: question.id })}/>
             <p className="mt-2">Answers:</p>
             {question.answers.map(a => <AnswerBlock key={a.id} answer={a} measurements={measurements}></AnswerBlock>)}
         </div>
@@ -87,10 +94,8 @@ type Action =
     | { type: 'ANSWER_TEXT_CHANGED', answerId: string, newText: string }
     | { type: 'ANSWER_MEASUREMENT_CHANGED', answerId: string, newValue: Measurement }
     | { type: 'ANSWER_VALUE_CHANGED', answerId: string, newValue: number }
-    | { type: 'SUGGESTION_ADDED', answerId: string }
-    | { type: 'SUGGESTION_REMOVED', answerId: string, suggestion: Suggestion }
-
-
+    | { type: 'ADD_SUGGESTION', answerId: string }
+    | { type: 'REMOVE_SUGGESTION', answerId: string, suggestionId: string }
 
 const answerReducer = (answer: Answer, action: Action): Answer => {
     switch (action.type) {
@@ -109,14 +114,19 @@ const answerReducer = (answer: Answer, action: Action): Answer => {
                 ...answer,
                 value: action.newValue
             }
-        case 'SUGGESTION_ADDED':
-
+        case 'ADD_SUGGESTION':
             return {
                 ...answer,
                 suggestions: [...(answer.suggestions || []), {
                     id: uuid(),
                     text: 'Placeholder suggestion',
                 }]
+            }
+        case 'REMOVE_SUGGESTION':
+            console.log(action);
+            return {
+                ...answer,
+                suggestions: answer.suggestions?.filter(s => s.id !== action.suggestionId)
             }
         default:
             return answer;
@@ -143,7 +153,9 @@ const reducer = (state: State, action: Action): State => {
         case 'ANSWER_TEXT_CHANGED':
         case 'ANSWER_MEASUREMENT_CHANGED':
         case 'ANSWER_VALUE_CHANGED':
-        case 'SUGGESTION_ADDED':
+        case 'ADD_SUGGESTION':
+        case 'REMOVE_SUGGESTION':
+            console.log(action);
             const question = state.questions.find(q => q.answers.some(a => a.id === action.answerId));
             return {
                 questions: state.questions.map(q => {
