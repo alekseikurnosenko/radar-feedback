@@ -6,7 +6,14 @@ import getMeasurements from './getMeasurements';
 import firebase from 'firebase';
 import FirebaseAuth from '../../components/FirebaseAuth';
 import saveUserAnswers, { UserAnswers } from './saveUserAnswers';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
+import saveSessionAnswers from './saveSessionAnswers';
+
+// A custom hook that builds on useLocation to parse
+// the query string for you.
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+}
 
 export const QuestionaireScreen = () => {
   const questions = getQuestions();
@@ -15,17 +22,21 @@ export const QuestionaireScreen = () => {
   const [showSignIn, setShowSignIn] = useState(false);
   const [isComplete, setComplete] = useState(false);
   const history = useHistory();
-
-  console.log(selectedAnswers);
+  const query = useQuery();
+  const sessionId = query.get('sessionId');
 
   useEffect(() => {
     if (isComplete) {
-      // Firebase user might or might not be set
-      const user = firebase.auth().currentUser;
-      if (user === null) {
-        setShowSignIn(true)
+      if (sessionId === null) {
+        // Firebase user might or might not be set
+        const user = firebase.auth().currentUser;
+        if (user === null) {
+          setShowSignIn(true)
+        } else {
+          handleSaveUserAnswers(user.uid);
+        }
       } else {
-        handleSaveUserAnswers(user.uid);
+        handleSaveSessionAnswers();
       }
     }
   }, [isComplete])
@@ -34,6 +45,12 @@ export const QuestionaireScreen = () => {
     console.log(selectedAnswers);
     await saveUserAnswers(userId, selectedAnswers)
     history.replace("/overview");
+  }
+
+  const handleSaveSessionAnswers = async () => {
+    await saveSessionAnswers(sessionId!, selectedAnswers)
+    // Navigate to 'complete screen'?
+    history.replace(`/sessions/${sessionId}`);
   }
 
   const SignInPrompt = () => (
@@ -62,8 +79,6 @@ export const QuestionaireScreen = () => {
         firebaseAuth={firebase.auth()} />
     </div>
   );
-
-
 
   return (
     <div className="flex flex-row items-center h-screen bg-gray-100">

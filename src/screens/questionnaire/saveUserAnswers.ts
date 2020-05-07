@@ -6,7 +6,7 @@ export interface UserAnswers {
     [questionId: string]: Answer[];
 };
 
-export default async (userId: string, answers: UserAnswers) => {
+export default async (userId: string, answers: UserAnswers, sessionId?: string) => {
     await firebase.firestore().collection('users').doc(userId).collection('tests').doc(uuid()).set({
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         answers

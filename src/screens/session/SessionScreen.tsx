@@ -1,6 +1,6 @@
 import { Answer } from "../questionnaire/getQuestions";
 import React, { useEffect } from "react";
-import { useParams, useHistory } from "react-router";
+import { useParams, useHistory, generatePath } from "react-router";
 import startSession from "./startSession";
 import { getUserId } from "../overview/getUserId";
 
@@ -25,9 +25,11 @@ export const SessionScreen = () => {
         return <p>Creating new session</p>
     }
 
+    const path = generatePath('/questionaire?sessionId=:sessionId', { sessionId: id})
+
     return (
         <div>
-            <p>Session: {history.location.pathname}</p>
+            <p>Take questionaire: <a className="underline text-blue-400" href={path}>Link</a></p>
         </div>
     )
 }

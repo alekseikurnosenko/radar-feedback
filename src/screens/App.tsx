@@ -20,8 +20,9 @@ export const App = () => {
     }, []);
 
 
+    console.log(isSignedIn)
     if (isSignedIn === undefined) {
-        return <p>Loading</p>;
+        return <p>App Loading</p>;
     }
 
     // TODO: check why is it re-rendered twice
