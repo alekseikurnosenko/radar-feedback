@@ -7,12 +7,14 @@ import { RadarChart } from "../../components/RadarChart";
 import { Link, useHistory, Redirect } from "react-router-dom";
 import firebase from "firebase";
 import { UserAnswers } from "../questionnaire/saveUserAnswers";
+import startSession from "../session/startSession";
 
 export const OverviewScreen = () => {
     const userId = getUserId()!;
     const measurements = getMeasurements();
     const [answers, isAnswersLoading] = getUserAnswers(userId);
     const questions = getQuestions();
+    const history = useHistory();
 
     if (!measurements || !answers || !questions) {
         return <p>Loading</p>;
@@ -27,12 +29,20 @@ export const OverviewScreen = () => {
     const currentAnswers = answers[0].answers;
     const previousAnswers = answers[1]?.answers as UserAnswers | undefined;
 
+    const handleStartSessionClick = () => {
+        startSession(userId)
+            .then(() => history.push("/session"))
+    };
+
     return (
         <div className="flex flex-col bg-background h-screen">
             <div className="flex flex-row items-center">
                 <p className="text-3xl">Overview</p>
                 <Link to="/questionaire">
                     <button className="ml-8 bg-red-400 rounded h-8 px-2">New test</button>
+                </Link>
+                <Link to="/session/new">
+                    <button className="ml-8 bg-red-400 rounded h-8 px-2">New session</button>
                 </Link>
                 <button className="mr-8 ml-auto" onClick={() => firebase.auth().signOut()}>Logout</button>
             </div>
@@ -68,7 +78,7 @@ export const OverviewScreen = () => {
                                                         <p className="italic mb-2 text">{question?.text}</p>
                                                         <p className="p-2 mb-2 border border-sold border-black rounded-lg">✔️ {a.text}</p>
                                                         {origAnswer?.suggestions && origAnswer?.suggestions.map(s => (
-                                                            <div className="pl-2 flex flex-row items-center">                                                                
+                                                            <div className="pl-2 flex flex-row items-center">
                                                                 <p>⚠ {s.text}</p>
                                                                 {s.link && <a className="ml-2 underline text-blue-500" target="_blank" href={s.link}>Link</a>}
                                                             </div>

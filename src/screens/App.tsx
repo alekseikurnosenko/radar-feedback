@@ -5,6 +5,8 @@ import { OverviewScreen } from "./overview/OverviewScreen";
 import firebase from 'firebase';
 import { LandingScreen } from "./landing/LangingScreen";
 import { QuestionsScreen } from "./management/QuestionsScreen";
+import { SessionScreen } from "./session/SessionScreen";
+import { SignInScreen } from "./signin/SignInScreen";
 
 
 export const App = () => {
@@ -36,8 +38,14 @@ export const App = () => {
                 <ProtectedRoute path="/overview">
                     <OverviewScreen />
                 </ProtectedRoute>
+                <ProtectedRoute path="/session/:id">
+                    <SessionScreen />
+                </ProtectedRoute>            
                 <Route path="/questionaire">
                     <QuestionaireScreen />
+                </Route>
+                <Route path="/signin">
+                    <SignInScreen />
                 </Route>
                 <Route path="/management">
                     <QuestionsScreen />
