@@ -9,6 +9,10 @@ import firebase from "firebase";
 import { UserAnswers } from "../questionnaire/saveUserAnswers";
 import startSession from "../session/startSession";
 
+export const answerValues = (answers: UserAnswers, measurement: Measurement) => {
+    return Object.values(answers).flatMap(answers => answers).reduce((sum, answer) => sum + (answer.measurement === measurement ? answer.value : 0), 0);    
+}
+
 const AnswersOverview = (props: { measurements: Measurement[], answers: UserAnswers[] }) => {
     const { measurements, answers } = props;
     const questions = getQuestions();
@@ -18,8 +22,8 @@ const AnswersOverview = (props: { measurements: Measurement[], answers: UserAnsw
     return (
         <div className="flex flex-1 flex-col px-8">
             {measurements.map(m => {
-                const currentValue = Object.values(currentAnswers).flatMap(answers => answers).reduce((sum, answer) => sum + (answer.measurement === m ? answer.value : 0), 0)
-                const previousValue = Object.values(previousAnswers || {}).flatMap(answers => answers).reduce((sum, answer) => sum + (answer.measurement === m ? answer.value : 0), 0)
+                const currentValue = answerValues(currentAnswers, m);
+                const previousValue = answerValues(previousAnswers || {}, m);
 
                 const diff = previousAnswers && (currentValue - previousValue);
                 return (

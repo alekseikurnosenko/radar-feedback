@@ -5,7 +5,7 @@ import { OverviewScreen } from "./overview/OverviewScreen";
 import firebase from 'firebase';
 import { LandingScreen } from "./landing/LangingScreen";
 import { QuestionsScreen } from "./management/QuestionsScreen";
-import { SessionScreen } from "./session/SessionScreen";
+import { SessionScreen, NewSessionScreen } from "./session/SessionScreen";
 import { SignInScreen } from "./signin/SignInScreen";
 
 
@@ -39,6 +39,9 @@ export const App = () => {
                 <ProtectedRoute path="/overview">
                     <OverviewScreen />
                 </ProtectedRoute>
+                <ProtectedRoute exact path="/session/new">
+                    <NewSessionScreen />
+                </ProtectedRoute>    
                 <ProtectedRoute path="/session/:id">
                     <SessionScreen />
                 </ProtectedRoute>            

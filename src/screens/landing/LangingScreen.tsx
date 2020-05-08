@@ -11,7 +11,7 @@ export const LandingScreen = () => {
                     <Button>Sign in</Button>
                 </Link>
             </div>
-            <div className="flex flex-1 flex-col items-center justify-center">
+            <div className="flex flex-1 flex-col p-4 items-center justify-center">
                 <h1 className="text-3xl text-center">Super amazing website where you can answer questions.</h1>
                 <Link className="mt-16" to="/questionaire">
                     <Button>Try out your first test!</Button>

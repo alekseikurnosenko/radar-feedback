@@ -50,7 +50,7 @@ export const QuestionaireScreen = () => {
   const handleSaveSessionAnswers = async () => {
     await saveSessionAnswers(sessionId!, selectedAnswers)
     // Navigate to 'complete screen'?
-    history.replace(`/sessions/${sessionId}`);
+    history.replace(`/session/${sessionId}`);
   }
 
   const SignInPrompt = () => (
