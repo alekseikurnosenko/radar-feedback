@@ -7,6 +7,7 @@ import { LandingScreen } from "./landing/LangingScreen";
 import { QuestionsScreen } from "./management/QuestionsScreen";
 import { SessionScreen, NewSessionScreen } from "./session/SessionScreen";
 import { SignInScreen } from "./signin/SignInScreen";
+import { SessionListScreen } from "./session/SessionListScreen";
 
 
 export const App = () => {
@@ -39,11 +40,14 @@ export const App = () => {
                 <ProtectedRoute path="/overview">
                     <OverviewScreen />
                 </ProtectedRoute>
-                <ProtectedRoute exact path="/session/new">
+                <ProtectedRoute exact path="/sessions/new">
                     <NewSessionScreen />
                 </ProtectedRoute>    
-                <ProtectedRoute path="/session/:id">
+                <ProtectedRoute path="/sessions/:id">
                     <SessionScreen />
+                </ProtectedRoute>
+                <ProtectedRoute path="/sessions/">
+                    <SessionListScreen />
                 </ProtectedRoute>            
                 <Route path="/questionaire">
                     <QuestionaireScreen />

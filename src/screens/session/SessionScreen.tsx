@@ -78,7 +78,7 @@ export const NewSessionScreen = () => {
     useEffect(() => {
         const promise = async () => {
             const session = await startSession(userId);
-            history.replace(`/session/${session.id}`);
+            history.replace(`/sessions/${session.id}`);
         }
         promise()
     }, [])

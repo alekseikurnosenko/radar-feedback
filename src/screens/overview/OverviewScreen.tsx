@@ -86,11 +86,6 @@ export const OverviewScreen = () => {
     const currentAnswers = answers[0].answers;
     const previousAnswers = answers[1]?.answers as UserAnswers | undefined;
 
-    const handleStartSessionClick = () => {
-        startSession(userId)
-            .then(() => history.push("/session"))
-    };
-
     return (
         <div className="flex flex-col bg-background h-screen">
             <div className="flex flex-row items-center">
@@ -98,7 +93,10 @@ export const OverviewScreen = () => {
                 <Link to="/questionaire">
                     <button className="ml-8 bg-red-400 rounded h-8 px-2">New test</button>
                 </Link>
-                <Link to="/session/new">
+                <Link to="/sessions">
+                    <button className="ml-8 bg-red-400 rounded h-8 px-2">Sessions</button>
+                </Link>
+                <Link to="/sessions/new">
                     <button className="ml-8 bg-red-400 rounded h-8 px-2">New session</button>
                 </Link>
                 <button className="mr-8 ml-auto" onClick={() => firebase.auth().signOut()}>Logout</button>
