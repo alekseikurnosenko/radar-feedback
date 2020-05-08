@@ -34,7 +34,7 @@ export const QuestionList = (props: QuestionSectionProps) => {
     };
 
     return (
-        <div className="m-16 overflow-y-auto">
+        <div className="overflow-y-auto">
             {question.isMultipleChoice
                 ?
                 <MultipleChoiceQuestion

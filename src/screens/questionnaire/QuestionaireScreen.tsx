@@ -8,6 +8,7 @@ import FirebaseAuth from '../../components/FirebaseAuth';
 import saveUserAnswers, { UserAnswers } from './saveUserAnswers';
 import { useHistory, useLocation } from 'react-router';
 import saveSessionAnswers from './saveSessionAnswers';
+import { useMedia } from '../../util/useMedia';
 
 // A custom hook that builds on useLocation to parse
 // the query string for you.
@@ -23,6 +24,7 @@ export const QuestionaireScreen = () => {
   const [isComplete, setComplete] = useState(false);
   const history = useHistory();
   const query = useQuery();
+  const isChartVisible = useMedia(['(min-width: 1024px'], [true], false);
   const sessionId = query.get('sessionId');
 
   useEffect(() => {
@@ -87,7 +89,7 @@ export const QuestionaireScreen = () => {
           ?
           <SignInPrompt />
           :
-          <div className="flex flex-1 flex-col">
+          <div className="flex flex-1 flex-col px-16">
             {questions &&
               <QuestionList
                 questions={questions}
@@ -102,15 +104,17 @@ export const QuestionaireScreen = () => {
             }
           </div>
       }
-      <div className="m-16">
-        {measurements && <RadarChart
-          maxValue={5}
-          minValue={0}
-          measurements={measurements}
-          userAnswers={selectedAnswers}
-        />
-        }
-      </div>
+      {isChartVisible &&
+        <div className="mr-16">
+          {measurements && <RadarChart
+            maxValue={5}
+            minValue={0}
+            measurements={measurements}
+            userAnswers={selectedAnswers}
+          />
+          }
+        </div>
+      }
     </div>
   );
 }

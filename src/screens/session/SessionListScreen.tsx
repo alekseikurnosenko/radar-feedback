@@ -15,7 +15,6 @@ const SessionItem = (props: { session: Session }) => {
     )
 }
 
-
 export const SessionListScreen = () => {
     const userId = getUserId()!
     const sessions = getSessions(userId);
