@@ -9,6 +9,7 @@ import saveUserAnswers, { UserAnswers } from './saveUserAnswers';
 import { useHistory, useLocation } from 'react-router';
 import saveSessionAnswers from './saveSessionAnswers';
 import { useMedia } from '../../util/useMedia';
+import { convertAnswers } from '../../util/converUserAnswers';
 
 // A custom hook that builds on useLocation to parse
 // the query string for you.
@@ -82,6 +83,12 @@ export const QuestionaireScreen = () => {
     </div>
   );
 
+  if (!measurements) {
+    return <p>Loading questionaire</p>;
+  }
+
+  const userMeasurements = convertAnswers(selectedAnswers, measurements);
+
   return (
     <div className="flex flex-row items-center h-screen bg-gray-100">
       {
@@ -106,11 +113,11 @@ export const QuestionaireScreen = () => {
       }
       {isChartVisible &&
         <div className="mr-16">
-          {measurements && <RadarChart
+          {<RadarChart
             maxValue={5}
             minValue={0}
             measurements={measurements}
-            userAnswers={selectedAnswers}
+            values={userMeasurements}
           />
           }
         </div>

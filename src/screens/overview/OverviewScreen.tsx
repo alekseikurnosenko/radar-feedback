@@ -8,6 +8,7 @@ import { Link, useHistory, Redirect } from "react-router-dom";
 import firebase from "firebase";
 import { UserAnswers } from "../questionnaire/saveUserAnswers";
 import startSession from "../session/startSession";
+import { convertAnswers } from "../../util/converUserAnswers";
 
 export const answerValues = (answers: UserAnswers, measurement: Measurement) => {
     return Object.values(answers).flatMap(answers => answers).reduce((sum, answer) => sum + (answer.measurement === measurement ? answer.value : 0), 0);    
@@ -83,8 +84,8 @@ export const OverviewScreen = () => {
         return <Redirect to="/questionaire" />
     }
 
-    const currentAnswers = answers[0].answers;
-    const previousAnswers = answers[1]?.answers as UserAnswers | undefined;
+    const currentValues = convertAnswers(answers[0].answers, measurements);
+    const previousValues = convertAnswers(answers[1]?.answers, measurements);
 
     return (
         <div className="flex flex-col bg-background h-screen">
@@ -110,8 +111,8 @@ export const OverviewScreen = () => {
                         maxValue={5}
                         minValue={0}
                         measurements={measurements}
-                        userAnswers={currentAnswers}
-                        previousUserAnswers={previousAnswers}
+                        values={currentValues}
+                        previousValues={previousValues}
                     />
                     }
                 </div>

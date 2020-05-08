@@ -8,6 +8,8 @@ import { UserAnswers } from "../questionnaire/saveUserAnswers";
 import { answerValues } from "../overview/OverviewScreen";
 import getSession from "./getSession";
 import { access } from "fs";
+import { RadarChart } from "../../components/RadarChart";
+import { convertAnswers } from "../../util/converUserAnswers";
 
 const userEmojis = ['🤠', '🧙‍♂️', '🎅', '🤖', '🕵️'];
 
@@ -52,7 +54,7 @@ const AnswersTable = (props: { sessionId: string, measurements: Measurement[], s
                         return sum + answerValues(s.answers, m);
                     }, 0);
                     const submissionCount = Object.keys(submissions).length;
-                    const avg = submissionCount > 0 ? (sum / submissionCount ).toFixed(1): 0.0.toFixed(1);
+                    const avg = submissionCount > 0 ? (sum / submissionCount).toFixed(1) : 0.0.toFixed(1);
 
                     return (
                         <tr key={m}>
@@ -104,11 +106,30 @@ export const SessionScreen = () => {
 
     const path = generatePath('/questionaire?sessionId=:sessionId', { sessionId: id })
 
+    const sumbissionCount = Object.keys(session.data.submissions).length;
+    const avgValues = sumbissionCount > 0
+        ? Object.values(session.data.submissions)
+            .map(({ answers }) => convertAnswers(answers, measurements))
+            .reduce<number[]>((acc, s) => acc.map((v, i) => v + s[i]), new Array(measurements.length).fill(0))
+            .map(v => v / sumbissionCount)
+        : new Array(measurements.length).fill(0.0.toFixed(1))
+
     return (
         <div className="p-4">
             <p>Take questionaire: <a className="underline text-blue-400" href={path}>Link</a></p>
-            <p className="mt-4">Results:</p>
-            <AnswersTable sessionId={session.data.id} submissions={session.data.submissions} measurements={measurements} />
+            <p className="mt-4">Results:</p>                
+            <div className="flex flex-col p-4 lg:flex-row items-center">
+                <AnswersTable sessionId={session.data.id} submissions={session.data.submissions} measurements={measurements} />
+                <div className=" mt-8 lg:mt-0 lg:ml-auto">
+                    {measurements && <RadarChart
+                        maxValue={5}
+                        minValue={0}
+                        measurements={measurements}
+                        values={avgValues}
+                    />
+                    }
+                </div>
+            </div>
         </div>
     )
 }

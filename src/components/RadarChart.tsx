@@ -6,8 +6,8 @@ export interface RadarChartProps {
     minValue: number;
     maxValue: number;
     measurements: string[];
-    userAnswers?: UserAnswers;
-    previousUserAnswers?: UserAnswers;
+    values: number[];
+    previousValues?: number[];
 }
 
 const convertAnswers = (answers: UserAnswers | undefined, measurements: string[]) => {
@@ -22,11 +22,8 @@ const convertAnswers = (answers: UserAnswers | undefined, measurements: string[]
 }
 
 export const RadarChart = (props: RadarChartProps) => {
-    const { userAnswers, previousUserAnswers, measurements } = props;
+    const { values, previousValues, measurements } = props;
 
-    const userMeasurements = convertAnswers(userAnswers, measurements);
-    const hasPrevious = previousUserAnswers !== undefined;
-    const previousUserMeasurements = convertAnswers(previousUserAnswers, measurements);
 
     const chartRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -41,12 +38,12 @@ export const RadarChart = (props: RadarChartProps) => {
                     datasets: [
                         {
                             label: 'Current',
-                            data: userMeasurements,
+                            data: values,
                             backgroundColor: 'rgba(0, 255, 0, 0.6)',
                         },
-                        hasPrevious ? {
+                        previousValues ? {
                             label: 'Previous',
-                            data: previousUserMeasurements,
+                            data: previousValues,
                             backgroundColor: 'rgba(0, 255, 0, 0.1)',
                         } : {}
                     ]
@@ -60,7 +57,7 @@ export const RadarChart = (props: RadarChartProps) => {
                         },                        
                     },
                     legend: {
-                        display: hasPrevious
+                        display: previousValues !== undefined,
                     }
                 };
                 const chart = new Chart(context, {
