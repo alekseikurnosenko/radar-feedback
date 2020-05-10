@@ -23,17 +23,17 @@ export interface Question {
 }
 
 export default () => {
-    const [questions, setQuestions] = useState<Question[]>()
+    const [questions, setQuestions] = useState<Question[]>();
 
     const getFromFirestore = async () => {
-        const doc = await firebase.firestore().collection('questions').doc('sport').get();   
-        const result = doc.data()?.list;    
+        const doc = await firebase.firestore().collection('questions').doc('sport').get();
+        const result = doc.data()?.list;
         setQuestions(result);
-    }
+    };
 
     useEffect(() => {
-        getFromFirestore()
+        getFromFirestore();
     }, []);
 
     return questions;
-}
+};

@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * Copyright 2017 Google Inc. All Rights Reserved.
  *
@@ -24,19 +25,18 @@ const ELEMENT_ID = 'firebaseui_container';
 // Promise that resolves unless the FirebaseUI instance is currently being deleted.
 let firebaseUiDeletion = Promise.resolve();
 
-
 export interface FirebaseAuthProps {
     // The Firebase UI Web UI Config object.
     // See: https://github.com/firebase/firebaseui-web#configuration
-    uiConfig: firebaseui.auth.Config,
+    uiConfig: firebaseui.auth.Config;
     // The Firebase App auth instance to use.
-    firebaseAuth: firebase.auth.Auth,
+    firebaseAuth: firebase.auth.Auth;
     // Callback that will be passed the FirebaseUi instance before it is
     // started. This allows access to certain configuration options such as
     // disableAutoSignIn().
-    uiCallback?: Function,
-    className?: String,
-};
+    uiCallback?: Function;
+    className?: string;
+}
 
 /**
  * React Component wrapper for the FirebaseUI Auth widget.
@@ -63,7 +63,7 @@ export default class FirebaseAuth extends React.Component<FirebaseAuthProps> {
         this.firebaseAuth = props.firebaseAuth;
         this.className = props.className;
         this.uiCallback = props.uiCallback;
-        this.unregisterAuthObserver = () => { };
+        this.unregisterAuthObserver = () => {};
         this.userSignedIn = false;
     }
 
@@ -82,8 +82,8 @@ export default class FirebaseAuth extends React.Component<FirebaseAuthProps> {
         // This can happen if you unmount/remount the element quickly.
         return firebaseUiDeletion.then(() => {
             // Get or Create a firebaseUI instance.
-            this.firebaseUiWidget = firebaseui.auth.AuthUI.getInstance()
-                || new firebaseui.auth.AuthUI(this.firebaseAuth);
+            this.firebaseUiWidget =
+                firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(this.firebaseAuth);
             if (this.uiConfig.signInFlow === 'popup') {
                 this.firebaseUiWidget.reset();
             }
@@ -122,8 +122,6 @@ export default class FirebaseAuth extends React.Component<FirebaseAuthProps> {
      * @inheritDoc
      */
     render() {
-        return (
-            <div className={this.className} id={ELEMENT_ID} />
-        );
+        return <div className={this.className} id={ELEMENT_ID} />;
     }
 }

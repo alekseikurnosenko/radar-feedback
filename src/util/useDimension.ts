@@ -1,6 +1,4 @@
-
-import { useState, useCallback, useLayoutEffect, useRef } from "react";
-
+import { useLayoutEffect, useState } from 'react';
 
 export const useDimensions = (ref: React.MutableRefObject<any>): DOMRect | undefined => {
     const [dimensions, setDimensions] = useState<DOMRect | undefined>();

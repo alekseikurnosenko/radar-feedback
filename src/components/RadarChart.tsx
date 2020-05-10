@@ -1,6 +1,5 @@
-import React, { useRef, useEffect } from "react";
 import { Chart } from 'chart.js';
-import { UserAnswers } from "../screens/questionnaire/saveUserAnswers";
+import React, { useEffect, useRef } from 'react';
 
 export interface RadarChartProps {
     minValue: number;
@@ -10,20 +9,8 @@ export interface RadarChartProps {
     previousValues?: number[];
 }
 
-const convertAnswers = (answers: UserAnswers | undefined, measurements: string[]) => {
-    const userMeasurements = Object.values(answers || {})
-        .flatMap(answers => answers)
-        .reduce<{ [measurement: string]: number }>((measurements, answer) => ({
-            ...measurements,
-            [answer.measurement]: answer.value + (measurements[answer.measurement] || 0)
-        }), {});
-
-        return measurements.map(m => userMeasurements[m] || 0);
-}
-
 export const RadarChart = (props: RadarChartProps) => {
     const { values, previousValues, measurements } = props;
-
 
     const chartRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -31,8 +18,6 @@ export const RadarChart = (props: RadarChartProps) => {
         if (chartRef.current) {
             const context = chartRef.current.getContext('2d');
             if (context) {
-
-
                 const data = {
                     labels: measurements,
                     datasets: [
@@ -41,12 +26,14 @@ export const RadarChart = (props: RadarChartProps) => {
                             data: values,
                             backgroundColor: 'rgba(0, 255, 0, 0.6)',
                         },
-                        previousValues ? {
-                            label: 'Previous',
-                            data: previousValues,
-                            backgroundColor: 'rgba(0, 255, 0, 0.1)',
-                        } : {}
-                    ]
+                        previousValues
+                            ? {
+                                  label: 'Previous',
+                                  data: previousValues,
+                                  backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                              }
+                            : {},
+                    ],
                 };
                 const options = {
                     scale: {
@@ -54,27 +41,24 @@ export const RadarChart = (props: RadarChartProps) => {
                             max: props.maxValue,
                             min: props.minValue,
                             stepSize: 1,
-                        },                        
+                        },
                     },
                     legend: {
                         display: previousValues !== undefined,
-                    }
+                    },
                 };
-                const chart = new Chart(context, {
+                new Chart(context, {
                     type: 'radar',
                     data,
-                    options
-                })
-
+                    options,
+                });
             }
         }
-
-    }, [props])
+    }, [props]);
 
     return (
         <div className="shadow-md rounded-chart bg-white p-8" style={{ width: 500, height: 500 }}>
             <canvas ref={chartRef} width={500} height={500} />
         </div>
-    )
-
+    );
 };

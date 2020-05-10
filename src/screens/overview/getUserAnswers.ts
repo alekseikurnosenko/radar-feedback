@@ -1,39 +1,40 @@
 import firebase from 'firebase';
 import { useEffect, useState } from 'react';
 import { UserAnswers } from '../questionnaire/saveUserAnswers';
-import { v4 as uuid } from 'uuid';
+import { Result } from '../../util/result';
 
 export interface TestResult {
     timestamp: Date;
     answers: UserAnswers;
 }
 
-export default (userId: string): [TestResult[] | undefined, boolean] => {
-    const [answers, setAnswers] = useState<TestResult[]>()
-    const [isLoading, setLoading] = useState(true);
+export default (userId: string) => {
+    const [result, setResult] = useState<Result<TestResult[]>>({ loading: true });
 
     const getFromFirestore = async () => {
-        const tests = await firebase.firestore()
+        const tests = await firebase
+            .firestore()
             .collection('users')
             .doc(userId)
             .collection('tests')
             .orderBy('timestamp', 'desc')
             .get();
-            
-        const result = tests.docs.map(d => d.data());
-        
-        
-        const answers = result.map(r => ({
+
+        const result = tests.docs.map((d) => d.data());
+
+        const answers = result.map((r) => ({
             timestamp: r.timestamp.toDate(),
-            answers: r.answers
+            answers: r.answers,
         }));
-        setAnswers(answers);
-        setLoading(false);
-    }
+        setResult({
+            loading: false,
+            data: answers,
+        });
+    };
 
     useEffect(() => {
-        getFromFirestore()
+        getFromFirestore();
     }, []);
 
-    return [answers, isLoading];
-}
+    return result;
+};

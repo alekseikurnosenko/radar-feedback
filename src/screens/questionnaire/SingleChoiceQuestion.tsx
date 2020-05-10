@@ -1,7 +1,6 @@
 import React from 'react';
 import { Question, Answer } from './getQuestions';
 
-
 export interface SingleChoiceQuestionProps {
     question: Question;
     selectedAnswer?: Answer;
@@ -16,25 +15,32 @@ interface AnswerButtonProps {
 
 const AnswerButton = (props: AnswerButtonProps) => {
     return (
-        <button className="p-4 mb-4 border border-sold border-black rounded-lg" style={{ backgroundColor: props.selected ? 'green' : undefined }} onClick={props.onClick}>
+        <button
+            className="p-4 mb-4 border border-sold border-black rounded-lg"
+            style={{ backgroundColor: props.selected ? 'green' : undefined }}
+            onClick={props.onClick}
+        >
             {props.text}
         </button>
     );
-}
+};
 
 export const SingleChoiceQuestion = (props: SingleChoiceQuestionProps) => {
     return (
         <div className="flex flex-col flex-1">
             <p>{props.question.text}</p>
             <div className="flex flex-col mt-8">
-                {props.question.answers.map(a =>
+                {props.question.answers.map((a) => (
                     <AnswerButton
                         key={a.id}
                         text={a.text}
                         selected={props.selectedAnswer?.text === a.text}
-                        onClick={() => { props.onQuestionAnswered(a) }} />
-                )}
+                        onClick={() => {
+                            props.onQuestionAnswered(a);
+                        }}
+                    />
+                ))}
             </div>
         </div>
     );
-}
+};

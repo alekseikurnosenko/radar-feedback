@@ -4,17 +4,17 @@ import { useState, useEffect } from 'react';
 export type Measurement = string;
 
 export default () => {
-    const [measurements, setMeasurements] = useState<Measurement[]>()
+    const [measurements, setMeasurements] = useState<Measurement[]>();
 
     const getFromFirestore = async () => {
         const doc = await firebase.firestore().collection('measurements').doc('sport').get();
-        const result = doc.data()?.list;     
+        const result = doc.data()?.list;
         setMeasurements(result);
-    }
+    };
 
     useEffect(() => {
-        getFromFirestore()
+        getFromFirestore();
     }, []);
 
     return measurements;
-}
+};

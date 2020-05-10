@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { SingleChoiceQuestion } from "./SingleChoiceQuestion";
-import { Question, Answer } from "./getQuestions";
-import { UserAnswers } from "./saveUserAnswers";
-import { MultipleChoiceQuestion } from "./MultipleChoiceQuestion";
+import React, { useState } from 'react';
+import { SingleChoiceQuestion } from './SingleChoiceQuestion';
+import { Question, Answer } from './getQuestions';
+import { UserAnswers } from './saveUserAnswers';
+import { MultipleChoiceQuestion } from './MultipleChoiceQuestion';
 
 export interface QuestionSectionProps {
     questions: Question[];
@@ -10,8 +10,6 @@ export interface QuestionSectionProps {
     onQuestionAnswered: (question: Question, answers: Answer[]) => void;
     onComplete: () => void;
 }
-
-const DELAY = 0;
 
 export const QuestionList = (props: QuestionSectionProps) => {
     const { questions, selectedAnswers, onQuestionAnswered, onComplete } = props;
@@ -23,11 +21,11 @@ export const QuestionList = (props: QuestionSectionProps) => {
 
     const question = questions[currentQuestionIndex];
 
-    const handleQuestionAnswered = (answers: Answer[]) => {        
+    const handleQuestionAnswered = (answers: Answer[]) => {
         onQuestionAnswered(question, answers);
 
         if (currentQuestionIndex < questions.length - 1) {
-            setCurrentQuestionIndex(currentQuestionIndex + 1)
+            setCurrentQuestionIndex(currentQuestionIndex + 1);
         } else {
             onComplete();
         }
@@ -35,20 +33,19 @@ export const QuestionList = (props: QuestionSectionProps) => {
 
     return (
         <div className="overflow-y-auto">
-            {question.isMultipleChoice
-                ?
+            {question.isMultipleChoice ? (
                 <MultipleChoiceQuestion
                     question={question}
                     selectedAnswers={selectedAnswers[question.id]}
-                    onQuestionAnswered={answers => handleQuestionAnswered(answers)}
+                    onQuestionAnswered={(answers) => handleQuestionAnswered(answers)}
                 />
-                :
+            ) : (
                 <SingleChoiceQuestion
                     question={question}
                     selectedAnswer={selectedAnswers[question.id]?.[0]}
-                    onQuestionAnswered={answer => handleQuestionAnswered([answer])}
+                    onQuestionAnswered={(answer) => handleQuestionAnswered([answer])}
                 />
-            }
+            )}
         </div>
     );
-}
+};

@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 import { v4 as uuid } from 'uuid';
-import { Question } from "./screens/questionnaire/getQuestions";
+import { Question } from './screens/questionnaire/getQuestions';
 
 const measurements = {
     jumping: '🦘 Jumping',
@@ -8,7 +8,7 @@ const measurements = {
     swimming: '🏊 Swimming',
     skiing: '⛷️ Skiing',
     juggling: '🤹 Juggling',
-}
+};
 
 const questions: Question[] = [
     {
@@ -20,7 +20,7 @@ const questions: Question[] = [
                 id: uuid(),
                 measurement: measurements.jumping,
                 text: 'Like a rabbit!',
-                value: 5
+                value: 5,
             },
             {
                 id: uuid(),
@@ -31,10 +31,10 @@ const questions: Question[] = [
                     {
                         id: uuid(),
                         text: 'Follow this program to improve!',
-                        link: 'https://lmgtfy.com/?q=training+program+scam'
-                    }
-                ]
-            }
+                        link: 'https://lmgtfy.com/?q=training+program+scam',
+                    },
+                ],
+            },
         ],
     },
     {
@@ -46,7 +46,7 @@ const questions: Question[] = [
                 id: uuid(),
                 measurement: measurements.running,
                 text: 'I am a gepard!',
-                value: 5
+                value: 5,
             },
             {
                 id: uuid(),
@@ -56,9 +56,9 @@ const questions: Question[] = [
                 suggestions: [
                     {
                         id: uuid(),
-                        text: 'So like, speed up?'
-                    }
-                ]
+                        text: 'So like, speed up?',
+                    },
+                ],
             },
             {
                 id: uuid(),
@@ -68,15 +68,15 @@ const questions: Question[] = [
                 suggestions: [
                     {
                         id: uuid(),
-                        text: 'Try moving your legs faster.'
+                        text: 'Try moving your legs faster.',
                     },
                     {
                         id: uuid(),
                         text: 'Buy these amazing shoes to improve!',
-                        link: 'https://lmgtfy.com/?q=buy+overpriced+branded+shoes'
-                    }
-                ]
-            }
+                        link: 'https://lmgtfy.com/?q=buy+overpriced+branded+shoes',
+                    },
+                ],
+            },
         ],
     },
     {
@@ -88,7 +88,7 @@ const questions: Question[] = [
                 id: uuid(),
                 measurement: measurements.swimming,
                 text: 'I am a Pro.',
-                value: 5
+                value: 5,
             },
             {
                 id: uuid(),
@@ -98,9 +98,9 @@ const questions: Question[] = [
                 suggestions: [
                     {
                         id: uuid(),
-                        text: 'Try ditching the tube. You will either learn to swim or ...'
-                    }
-                ]
+                        text: 'Try ditching the tube. You will either learn to swim or ...',
+                    },
+                ],
             },
             {
                 id: uuid(),
@@ -110,10 +110,10 @@ const questions: Question[] = [
                 suggestions: [
                     {
                         id: uuid(),
-                        text: 'Try moving your arms and legs. Don`t forget to breathe'
-                    }
-                ]
-            }
+                        text: 'Try moving your arms and legs. Don`t forget to breathe',
+                    },
+                ],
+            },
         ],
     },
     {
@@ -125,19 +125,19 @@ const questions: Question[] = [
                 id: uuid(),
                 measurement: measurements.skiing,
                 text: 'Won gold on the last Olympic games.',
-                value: 5
+                value: 5,
             },
             {
                 id: uuid(),
                 measurement: measurements.skiing,
                 text: 'Can reach the bottom without breaking my neck.',
-                value: 3
+                value: 3,
             },
             {
                 id: uuid(),
                 measurement: measurements.skiing,
                 text: 'Snowboarding for life!',
-                value: 1
+                value: 1,
             },
         ],
     },
@@ -150,7 +150,7 @@ const questions: Question[] = [
                 id: uuid(),
                 measurement: measurements.juggling,
                 text: 'Yes',
-                value: 5
+                value: 5,
             },
             {
                 id: uuid(),
@@ -161,9 +161,9 @@ const questions: Question[] = [
                     {
                         id: uuid(),
                         text: 'Try increasing number of items you can juggle with',
-                        link: 'https://lmgtfy.com/?q=extreme+juggling'
-                    }
-                ]
+                        link: 'https://lmgtfy.com/?q=extreme+juggling',
+                    },
+                ],
             },
             {
                 id: uuid(),
@@ -173,9 +173,9 @@ const questions: Question[] = [
                 suggestions: [
                     {
                         id: uuid(),
-                        text: 'Throw your phone into the air and try to catch it.'
-                    }
-                ]
+                        text: 'Throw your phone into the air and try to catch it.',
+                    },
+                ],
             },
         ],
     },
@@ -188,29 +188,29 @@ const questions: Question[] = [
                 id: uuid(),
                 measurement: measurements.swimming,
                 text: 'I can wrestle with sharks',
-                value: 1
+                value: 1,
             },
             {
                 id: uuid(),
                 measurement: measurements.juggling,
                 text: 'I can juggle with chainsaws which are set on fire',
-                value: 1
+                value: 1,
             },
             {
                 id: uuid(),
                 measurement: measurements.swimming,
                 text: 'I can swim across English Channel',
-                value: 1
+                value: 1,
             },
             {
                 id: uuid(),
                 measurement: measurements.swimming,
                 text: 'I can swim across Atlantic Ocean',
-                value: 1
+                value: 1,
             },
         ],
     },
-]
+];
 
 const stub = async () => {
     const questionCollection = firebase.firestore().collection('questions');
@@ -224,4 +224,4 @@ const stub = async () => {
 
 stub();
 
-export { };
+export {};

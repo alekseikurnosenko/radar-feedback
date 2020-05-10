@@ -1,27 +1,24 @@
-import { QuestionaireScreen } from "./questionnaire/QuestionaireScreen"
-import React, { useState, useEffect } from "react"
-import { BrowserRouter, Switch, Route, useHistory, Redirect } from 'react-router-dom';
-import { OverviewScreen } from "./overview/OverviewScreen";
 import firebase from 'firebase';
-import { LandingScreen } from "./landing/LangingScreen";
-import { QuestionsScreen } from "./management/QuestionsScreen";
-import { SessionScreen, NewSessionScreen } from "./session/SessionScreen";
-import { SignInScreen } from "./signin/SignInScreen";
-import { SessionListScreen } from "./session/SessionListScreen";
-
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { LandingScreen } from './landing/LangingScreen';
+import { QuestionsScreen } from './management/QuestionsScreen';
+import { OverviewScreen } from './overview/OverviewScreen';
+import { QuestionaireScreen } from './questionnaire/QuestionaireScreen';
+import { SessionListScreen } from './session/SessionListScreen';
+import { NewSessionScreen, SessionScreen } from './session/SessionScreen';
+import { SignInScreen } from './signin/SignInScreen';
 
 export const App = () => {
     const [isSignedIn, setSignedIn] = useState<boolean | undefined>();
-    const currentUser = firebase.auth().currentUser;
 
     useEffect(() => {
-        firebase.auth().onAuthStateChanged(user => {
+        firebase.auth().onAuthStateChanged((user) => {
             setSignedIn(user !== null);
         });
     }, []);
 
-
-    console.log(isSignedIn)
+    console.log(isSignedIn);
     if (isSignedIn === undefined) {
         return <p>App Loading</p>;
     }
@@ -32,23 +29,20 @@ export const App = () => {
         <BrowserRouter>
             <Switch>
                 <Route exact path="/">
-                    {isSignedIn
-                        ? <Redirect to="/overview" />
-                        : <LandingScreen />
-                    }
+                    {isSignedIn ? <Redirect to="/overview" /> : <LandingScreen />}
                 </Route>
                 <ProtectedRoute path="/overview">
                     <OverviewScreen />
                 </ProtectedRoute>
                 <ProtectedRoute exact path="/sessions/new">
                     <NewSessionScreen />
-                </ProtectedRoute>    
+                </ProtectedRoute>
                 <ProtectedRoute path="/sessions/:id">
                     <SessionScreen />
                 </ProtectedRoute>
                 <ProtectedRoute path="/sessions/">
                     <SessionListScreen />
-                </ProtectedRoute>            
+                </ProtectedRoute>
                 <Route path="/questionaire">
                     <QuestionaireScreen />
                 </Route>
@@ -60,17 +54,10 @@ export const App = () => {
                 </Route>
             </Switch>
         </BrowserRouter>
-    )
-}
+    );
+};
 
 const ProtectedRoute = ({ children, ...props }: any) => {
     const currentUser = firebase.auth().currentUser;
-    return (
-        <Route {...props}>
-            {currentUser === null
-                ? <Redirect to="/" />
-                : children
-            }
-        </Route>
-    )
-}
+    return <Route {...props}>{currentUser === null ? <Redirect to="/" /> : children}</Route>;
+};

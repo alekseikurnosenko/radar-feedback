@@ -9,8 +9,8 @@ export interface Session {
     submissions: {
         [id: string]: {
             answers: UserAnswers;
-        }
-    }
+        };
+    };
 }
 
 export default async (userId: string) => {
@@ -19,8 +19,8 @@ export default async (userId: string) => {
         id,
         timestamp: new Date(),
         owner: userId,
-        submissions: {}
-    }
+        submissions: {},
+    };
     await firebase.firestore().collection('sessions').doc(id).set(session);
     return session;
 };

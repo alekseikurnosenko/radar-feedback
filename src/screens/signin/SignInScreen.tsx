@@ -1,6 +1,6 @@
-import FirebaseAuth from "../../components/FirebaseAuth";
-import React from "react";
-import firebase from "firebase";
+import FirebaseAuth from '../../components/FirebaseAuth';
+import React from 'react';
+import firebase from 'firebase';
 
 export const SignInScreen = () => {
     return (
@@ -15,7 +15,8 @@ export const SignInScreen = () => {
                     credentialHelper: 'none',
                     signInSuccessUrl: '/overview',
                 }}
-                firebaseAuth={firebase.auth()} />
+                firebaseAuth={firebase.auth()}
+            />
         </div>
-    )
-}
+    );
+};
