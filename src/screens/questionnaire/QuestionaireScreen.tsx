@@ -105,6 +105,7 @@ export const QuestionaireScreen = () => {
                                     ...prevAnswers,
                                     [question.id]: answers,
                                 }));
+                                firebase.analytics().logEvent('question_answered', { questionId: question.id });
                             }}
                             onComplete={() => setComplete(true)}
                         />

@@ -88,7 +88,7 @@ export const OverviewScreen = () => {
     const answers = getUserAnswers(userId);
 
     if (!measurements || answers.loading) {
-        return <p>Loading</p>;
+        return <p>Overview loading</p>;
     }
 
     if (!answers.data || answers.data.length === 0) {
